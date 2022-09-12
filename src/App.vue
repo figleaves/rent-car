@@ -120,13 +120,16 @@ const onLogin = async () => {
     ElMessage.error("Please input password first!")
     return
   } 
-  dialogFormVisible = false
+  
   let res = await request.post('customer/login', {
       email: loginForm.email,
 	    password: loginForm.password
     })
-    localStorage.setItem('token', res)
+    if (null != res){
+      dialogFormVisible = false
+      localStorage.setItem('token', res)
     startData()
+    }
 }
 
 const startData = () => {
@@ -163,6 +166,10 @@ const onSubmit = () => {
     ElMessage.error("Please choose startTime first!")
     return
   }
+  // console.log(form.startTime)
+  // console.log(moment(form.startTime).unix()*1000)
+  // console.log(moment.now())
+  // console.log(moment(form.startTime).unix()*1000 < moment.now())
   if (!form.endTime){
     ElMessage.error("Please choose endTime first!")
     return
